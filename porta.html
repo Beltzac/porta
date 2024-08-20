@@ -1,41 +1,46 @@
 
 <style>
+    @font-face {
+        font-family: 'Thata';
+        src: url('Thata-Regular-2024-08-15.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
     body {
         display: flex;
         align-items: center;
         justify-content: center;
         height: 100vh;
         overflow: hidden;
-      }
+    }
 
-      .door {
+    .door {
         margin: auto;
         width: 510px;
-        height:850px;
+        height: 850px;
         cursor: pointer;
         transform-style: preserve-3d;
-          transform: perspective(2500px);
-      }
+        transform: perspective(2500px);
+    }
 
-      .batente {
+    .batente {
         width: 990px;
-        height:1040px;
+        height: 1040px;
         background-image: url("http://127.0.0.1:8080/batente.png");
         background-repeat: no-repeat;
         background-size: contain;
         background-position: center center;
         padding-top: 168px;
-      }
+    }
 
-      .door-direita {
+    .door-direita {
         width: 250px;
-        height:850px;
+        height: 850px;
         overflow: hidden;
         transform-origin: left;
-        /*box-shadow: 30px 0 50px rgba(0,0,0,0.2);*/
         position: absolute;
-        /*background-color: #924500;*/
-        z-index:10;
+        z-index: 10;
         transition: transform 0.84s cubic-bezier(.68,-0.55,.27,1.20);
         background-size: contain;
         background-image: url("porta-direita.png");
@@ -43,45 +48,91 @@
         margin-left: 210px;
         background-repeat: no-repeat;
         background-position: right center;
-      }
+    }
 
-      .door-esquerda {
+    .door-esquerda {
         width: 250px;
-        height:850px;
+        height: 850px;
         overflow: hidden;
         transform-origin: left;
-        /* box-shadow: 30px 0 50px rgba(0,0,0,0.2);*/
         position: absolute;
-        /*background-color: #924500;*/
-        z-index:10;
+        z-index: 10;
         transition: transform 0.8s cubic-bezier(.62,-0.75,.25,1.30);
         background-size: contain;
         background-image: url("porta-esquerda.png");
         background-repeat: no-repeat;
         background-position: left center;
         margin-left: -15px;
-      }
+    }
 
-      .door:hover .door-direita {
+    .door:hover .door-direita {
         transform-origin: right;
         transform: rotateY(160deg);
-      }
+    }
 
-      .door:hover .door-esquerda {
+    .door:hover .door-esquerda {
         transform: rotateY(-160deg);
-      }
+    }
 
-      .door-back {
-        position: relative;
-        background: linear-gradient(0deg, rgba(193,124,116,1) 13%, rgba(73,88,103,1) 13%, rgba(79,100,124,1) 15%, rgba(87,115,153,1) 15%);
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        outline: 10px solid #edf2f4;
-        z-index:-1;
-      }
+    .botoes {
+        margin-left: -18px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 200px;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out, visibility 0s linear 0.5s;
+        visibility: hidden;
+    }
 
+    .door:hover .botoes {
+        visibility: visible;
+        opacity: 1;
+        transition-delay: 0.4s; /* Delay for showing the buttons */
+    }
+
+    .door:hover ~ .botoes {
+        visibility: hidden;
+        opacity: 0;
+        transition-delay: 0.4s; /* Delay for hiding the buttons */
+    }
+
+   /* .botoes a {
+        margin: 5px 0;
+        height: 100px;
+        width: 200px;
+        background-size: contain;
+        background-image: url("botao.png");
+        background-repeat: no-repeat;
+        background-position: center center;
+    }*/
+
+    .botoes a {
+        display: inline-block;
+        text-align: center;
+        text-decoration: none;
+        color: black;
+        width: 500px;
+        line-height: 100px;
+        font-size: 60px;
+        margin-bottom: 20px;
+       /* transition: background-color 0.3s ease;*/
+        background-size: contain;
+        background-image: url("botao.png");
+        background-repeat: no-repeat;
+        background-position: center center;
+        font-family: 'Thata', sans-serif;
+    }
+
+    .botoes a:hover {
+        transform: translateY(10px);
+        background-image: url("botao_precionado.png");
+    }
 </style>
+
 
 <div class="batente">
     <div class="door">
@@ -89,9 +140,14 @@
         </div>
         <div class="door-esquerda">
         </div>
-<!--
-         <div class="door-back">
 
-        </div> -->
+        <div class="botoes">
+            <a href="#">Menu 1</a>
+            <a href="#">Instagram</a>
+            <a href="#">Testando :)</a>
+            <a href="#">Mega fonte ☺</a>
+            <a href="#">☼♣♥♦☻</a>
+          </div>
       </div>
+
     </div>
