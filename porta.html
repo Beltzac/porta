@@ -1,4 +1,3 @@
-
 <style>
     @font-face {
         font-family: 'Thata';
@@ -13,60 +12,57 @@
         justify-content: center;
         height: 100vh;
         overflow: hidden;
+        margin: 0;
     }
 
     .door {
-        margin: auto;
-        width: 510px;
-        height: 850px;
+        height: -webkit-fill-available;
+        width: -webkit-fill-available;
         cursor: pointer;
         transform-style: preserve-3d;
         transform: perspective(2500px);
     }
 
     .batente {
-        width: 990px;
-        height: 1040px;
+        width: -webkit-fill-available;
+        height: -webkit-fill-available;
         background-image: url("https://static.wixstatic.com/media/c1926f_8c1521b95b0e4f46a789329ac36614e4~mv2.png");
         background-repeat: no-repeat;
         background-size: contain;
         background-position: center center;
-        padding-top: 168px;
+
+        padding-top: 14vh;
+        padding-bottom: 15vh;
+        padding-left: calc(50vw - 23vh);
+        padding-right: calc(50vw - 17vh);
+    }
+
+    .door-direita, .door-esquerda {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        position: absolute;
+        z-index: 10;
+        background-size: contain;
+        background-repeat: no-repeat;
+        transition: transform 0.84s cubic-bezier(.68,-0.55,.27,1.20);
     }
 
     .door-direita {
-        width: 250px;
-        height: 850px;
-        overflow: hidden;
-        transform-origin: left;
-        position: absolute;
-        z-index: 10;
-        transition: transform 0.84s cubic-bezier(.68,-0.55,.27,1.20);
-        background-size: contain;
         background-image: url("https://static.wixstatic.com/media/c1926f_c86a5700c2a142769ebca8aa24c8e928~mv2.png");
         transform-origin: right;
-        margin-left: 210px;
-        background-repeat: no-repeat;
+        right: 0; /* Align to right */
         background-position: right center;
     }
 
     .door-esquerda {
-        width: 250px;
-        height: 850px;
-        overflow: hidden;
-        transform-origin: left;
-        position: absolute;
-        z-index: 10;
-        transition: transform 0.8s cubic-bezier(.62,-0.75,.25,1.30);
-        background-size: contain;
         background-image: url("https://static.wixstatic.com/media/c1926f_ebc8a0bdde5f40d694c1342b3e36fd48~mv2.png");
-        background-repeat: no-repeat;
+        transform-origin: left;
+        left: 0; /* Align to left */
         background-position: left center;
-        margin-left: -15px;
     }
 
     .door:hover .door-direita {
-        transform-origin: right;
         transform: rotateY(130deg);
     }
 
@@ -75,29 +71,29 @@
     }
 
     .botoes {
-        margin-left: -18px;
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-top: 200px;
+        margin-top: 25%;
         opacity: 0;
         transition: opacity 0.5s ease-in-out, visibility 0s linear 0.5s;
         visibility: hidden;
+        width: 100%;
     }
 
     .door:hover .botoes {
         visibility: visible;
         opacity: 1;
-        transition-delay: 0.4s; /* Delay for showing the buttons */
+        transition-delay: 0.4s;
     }
 
     .door:hover ~ .botoes {
         visibility: hidden;
         opacity: 0;
-        transition-delay: 0.4s; /* Delay for hiding the buttons */
+        transition-delay: 0.4s;
     }
 
     .botoes a {
@@ -105,10 +101,10 @@
         text-align: center;
         text-decoration: none;
         color: black;
-        width: 500px;
-        line-height: 100px;
-        font-size: 60px;
-        margin-bottom: 20px;
+        width: 100%;
+        line-height: 10vh;
+        font-size: 6vh;
+        margin-bottom: 2vh;
         background-size: contain;
         background-image: url("https://static.wixstatic.com/media/c1926f_5661eb3fe637420ebf16c53749679e9b~mv2.png");
         background-repeat: no-repeat;
@@ -117,26 +113,25 @@
     }
 
     .botoes a:hover {
-        transform: translateY(10px);
+        transform: translateY(1vh);
         background-image: url("https://static.wixstatic.com/media/c1926f_670f8f0966b54cb2894002d52ca6c761~mv2.png");
     }
-</style>
 
+    /*.door{
+        background-color: rgba(255, 0, 0, 0.264);
+    }*/
+</style>
 
 <div class="batente">
     <div class="door">
-        <div class="door-direita">
-        </div>
-        <div class="door-esquerda">
-        </div>
-
+        <div class="door-direita"></div>
+        <div class="door-esquerda"></div>
         <div class="botoes">
             <a href="#">Menu 1</a>
             <a href="#">Instagram</a>
             <a href="#">Testando :)</a>
             <a href="#">Mega fonte ☺</a>
             <a href="#">☼♣♥♦☻</a>
-          </div>
-      </div>
-
+        </div>
     </div>
+</div>
