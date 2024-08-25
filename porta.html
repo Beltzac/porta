@@ -1,7 +1,7 @@
 <style>
     @font-face {
         font-family: 'Thata';
-        src: url('Thata-Regular-2024-08-15.ttf') format('truetype');
+        src: url('https://static.wixstatic.com/ufonts/c1926f_163cafe5c04d48cbbb27552644b8fe60/file.ttf') format('truetype');
         font-weight: normal;
         font-style: normal;
     }
@@ -13,6 +13,7 @@
         height: 100vh;
         overflow: hidden;
         margin: 0;
+        -webkit-tap-highlight-color: transparent;
     }
 
     .door {
@@ -103,7 +104,6 @@
         color: black;
         width: 100%;
         line-height: 10vh;
-        font-size: 6vh;
         margin-bottom: 2vh;
         background-size: contain;
         background-image: url("https://static.wixstatic.com/media/c1926f_5661eb3fe637420ebf16c53749679e9b~mv2.png");
@@ -117,6 +117,18 @@
         background-image: url("https://static.wixstatic.com/media/c1926f_670f8f0966b54cb2894002d52ca6c761~mv2.png");
     }
 
+    .font-1 {
+        font-size: 4vh;
+    }
+
+    .font-2 {
+        font-size: 5vh;
+    }
+
+    .font-3 {
+        font-size: 6vh;
+    }
+
     /*.door{
         background-color: rgba(255, 0, 0, 0.264);
     }*/
@@ -127,11 +139,11 @@
         <div class="door-direita"></div>
         <div class="door-esquerda"></div>
         <div class="botoes">
-            <a href="#">Menu 1</a>
-            <a href="#">Instagram</a>
-            <a href="#">Testando :)</a>
-            <a href="#">Mega fonte ☺</a>
-            <a href="#">☼♣♥♦☻</a>
+            <a class="font-1" href="https://www.thalitaneres.com.br/portfolio-arquitetura">Portfólio de Arquitetura</a>
+            <a class="font-3" href="https://www.thalitaneres.com.br/meuslivros">Meus Livros</a>
+            <a class="font-2" href="mailto:Oioi@thalitaneres.com.br">Entre em Contato</a>
+            <a class="font-2" href="https://www.thalitaneres.com.br/mandajob">Manda Job</a>
+            <a class="font-3" href="https://www.instagram.com/thalitaneres">Instagram</a>
         </div>
     </div>
 </div>
@@ -143,5 +155,29 @@
             block: 'center',
             inline: 'nearest'
         });
+
+        const links = document.querySelectorAll('#batente .botoes a');
+
+        links.forEach(function(link) {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const href = link.getAttribute('href');
+
+                // If the link contains www.thalitaneres.com.br, get the relative path
+                if (href.includes('www.thalitaneres.com.br')) {
+                    //parse and get only the path
+                    var path = new URL(href).pathname;
+                    goTo(path);
+                    return;
+                }
+
+                goTo(href);
+            });
+        });
     });
+
+    function goTo(url) {
+        window.parent.postMessage(url, "*");
+        console.log('Url enviada:' + url);
+    }
 </script>
