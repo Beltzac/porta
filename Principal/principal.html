@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+        const baseUrl = ""
+        const baseImageFilename = "https://static.wixstatic.com/media/c1926f_aa97532a8bec49118c685fc9e4ebb17a~mv2.png"; // Base image
+
+        const overlayImages =
+        [
+            {
+                "nomeImagem": "Livros",
+                "arquivo": "https://static.wixstatic.com/media/c1926f_cf25a827d08d4a4fbd4d51230026e623~mv2.png",
+                "urlLink": "https://example.com/images/ilustras.png"
+            },
+            {
+                "nomeImagem": "Podcast",
+                "arquivo": "https://static.wixstatic.com/media/c1926f_e120e2ec9ac44e32b75e0f74b782192a~mv2.png",
+                "urlLink": "https://example.com/images/fone.png"
+            },
+            {
+                "nomeImagem": "Softwares Que Uso",
+                "arquivo": "https://static.wixstatic.com/media/c1926f_ba28eee705334f41bf014a3ce02f113c~mv2.png",
+                "urlLink": "https://example.com/images/tela.png"
+            },
+            {
+                "nomeImagem": "Meu Computador",
+                "arquivo": "https://static.wixstatic.com/media/c1926f_34f0db762d574ee0ae65885df953d0c5~mv2.png",
+                "urlLink": "https://example.com/images/pc.png"
+            },
+            {
+                "nomeImagem": "Plantas",
+                "arquivo": "https://static.wixstatic.com/media/c1926f_6809a23ddeb7425f88aee348e837baaa~mv2.png",
+                "urlLink": "https://example.com/images/aparador.png"
+            },
+            {
+                "nomeImagem": "Arquitetura",
+                "arquivo": "https://static.wixstatic.com/media/c1926f_1c8435ab3c3e438c875fab6102612ba7~mv2.png",
+                "urlLink": "https://example.com/images/arqui.png"
+            },
+            {
+                "nomeImagem": "Arquitetura",
+                "arquivo": "https://static.wixstatic.com/media/c1926f_df5c372683b04f5cab1bd2e28cc56d1d~mv2.png",
+                "urlLink": "https://example.com/images/arqui.png"
+            },
+            {
+                "nomeImagem": "Arte",
+                "arquivo": "https://static.wixstatic.com/media/c1926f_b94d9beb8d614380b1b2484cfa28020e~mv2.png",
+                "urlLink": "https://example.com/images/arte.png"
+            },
+            {
+                "nomeImagem": "Fotografias",
+                "arquivo": "https://static.wixstatic.com/media/c1926f_2887ffc5a21a4a10a31bc000c5965238~mv2.png",
+                "urlLink": "/fotografia"
+            },
+            {
+                "nomeImagem": "Redes Sociais",
+                "arquivo": "https://static.wixstatic.com/media/c1926f_fca71111d8134adeaefb6a024dc74d59~mv2.png",
+                "urlLink": "https://example.com/images/celular.png"
+            },
+            {
+                "nomeImagem": "Aquarelas",
+                "arquivo": "https://static.wixstatic.com/media/c1926f_4ec312a9ab664fa4837411c3777c6ee9~mv2.png",
+                "urlLink": "https://example.com/images/deco.png"
+            },
+            {
+                "nomeImagem": "Poemas",
+                "arquivo": "https://static.wixstatic.com/media/c1926f_cdb97f11645f48edb53ce32582614989~mv2.png",
+                "urlLink": "https://example.com/images/escritos.png"
+            },
+            {
+                "nomeImagem": "Games",
+                "arquivo": "https://static.wixstatic.com/media/c1926f_5dbf75f9449144e792be90d334575cdb~mv2.png",
+                "urlLink": "https://example.com/images/games.png"
+            },
+            {
+                "nomeImagem": "Ilustrações",
+                "arquivo": "https://static.wixstatic.com/media/c1926f_097bfd3b6cfd4cdda0646a160e41b13a~mv2.png",
+                "urlLink": "https://example.com/images/ilustras.png"
+            },
+            {
+                "nomeImagem": "Blog",
+                "arquivo": "https://static.wixstatic.com/media/c1926f_8376fd325f8d4e9dbeb776ee9b468e3a~mv2.png",
+                "urlLink": "https://example.com/images/ilustras.png"
+            },
+        ]
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            console.log(overlayImages.length + " imagens");
+
+            let lastNonTransparentImageIndex = -1; // To keep track of the last non-transparent image
+
+            const imageContainer = document.getElementById('imageContainer');
+
+            let preProcessedOverlays = [];
+
+            // Function to create an image and append it to the container
+            function createAndAppendImage(src, zIndex, visible) {
+                const img = document.createElement('img');
+                img.crossOrigin = "anonymous";
+                img.src = src;
+                img.classList.add('imageLayer');
+                img.style.zIndex = zIndex;
+                img.style.display = visible ? '' : 'none';
+                imageContainer.appendChild(img);
+                return img; // Return the image element for further use if necessary
+            }
+
+            // Create images
+            const baseImage = createAndAppendImage(baseUrl + baseImageFilename, 1, true);
+            let overlayElements = overlayImages.map((overlay, index) =>
+                createAndAppendImage(baseUrl + overlay.arquivo, index + 2, false)
+            );
+
+            var loadedImages = 0;
+            overlayElements.forEach((img, index) => {
+                img.onload = () => {
+                    preProcessedOverlays[index] = preProcessOverlays(img, index);
+                    loadedImages++;
+
+                    if (loadedImages === overlayElements.length) {
+                        setupImagesEvents();
+                        document.querySelector('.lds-facebook').style.display = 'none';
+                    }
+                };
+            });
+
+            function setupImagesEvents() {
+                imageContainer.addEventListener('mousemove', function (e) {
+                    checkPixelColor(overlayElements, e.offsetX, e.offsetY);
+                });
+
+                imageContainer.addEventListener('mousemove', function (e) {
+                    var imageName = overlayImages[lastNonTransparentImageIndex]?.nomeImagem;
+                    changeCursor(imageName);
+                    showName(imageName, e.offsetX, e.offsetY);
+                });
+
+                imageContainer.addEventListener('click', function () {
+                    if (lastNonTransparentImageIndex >= 0) {
+                        var overlay = overlayImages[lastNonTransparentImageIndex];
+                        window.parent.postMessage(overlay.urlLink, "*");
+                        console.log('Url enviada:' + overlay.urlLink);
+                    }
+                });
+            }
+
+            // Pre-process overlays
+            function preProcessOverlays(overlay, index) {
+                const offScreenCanvas = document.createElement('canvas');
+                const ctx = offScreenCanvas.getContext('2d');
+
+                offScreenCanvas.width = overlay.naturalWidth;
+                offScreenCanvas.height = overlay.naturalHeight;
+
+                ctx.drawImage(overlay, 0, 0);
+
+                const imageData = ctx.getImageData(0, 0, offScreenCanvas.width, offScreenCanvas.height);
+                return { imageData, ctx };
+            }
+
+            // Adjusted function to use pre-processed data
+            function checkPixelColor(overlayElements, x, y) {
+                lastNonTransparentImageIndex = -1;
+
+                // Scale the mouse coordinates to the canvas size
+                // So we can get the correct pixel from the pre-processed data
+
+                const boundingBox = baseImage.getBoundingClientRect();
+                const scale =  preProcessedOverlays[0].ctx.canvas.width / boundingBox.width;
+
+                x *= scale;
+                y *= scale;
+
+                //floor the values to get the correct pixel
+                x = Math.floor(x);
+                y = Math.floor(y);
+
+                for (let i = overlayElements.length - 1; i >= 0; i--) {
+                    const overlay = overlayElements[i];
+                    const preProcessed = preProcessedOverlays[i];
+
+                    const pixelIndex = (y * preProcessed.ctx.canvas.width + x) * 4;
+                    const pixel = preProcessed.imageData.data.slice(pixelIndex, pixelIndex + 4);
+
+                    if (pixel[3] !== 0) { // Check alpha value
+                        overlayElements[i].style.display = '';
+                        lastNonTransparentImageIndex = i;
+                        break;
+                    } else {
+                        overlayElements[i].style.display = 'none';
+                    }
+                }
+            }
+
+            function showToast(message) {
+                const toastContainer = document.getElementById('toastContainer');
+                const toast = document.createElement('div');
+                toast.classList.add('toast');
+                toast.textContent = message;
+
+                // Add the toast to the container
+                toastContainer.appendChild(toast);
+
+                // Show the toast
+                setTimeout(() => {
+                    toast.style.opacity = 1;
+                }, 100);
+
+                // Hide and remove the toast after 3 seconds
+                setTimeout(() => {
+                    toast.style.opacity = 0;
+                    setTimeout(() => toastContainer.removeChild(toast), 500); // Ensure fade out completes
+                }, 3000);
+            }
+
+            function showName(name, x, y) {
+                const nameContainer = document.getElementById('objectDescription');
+
+                if (!name) {
+                    nameContainer.style.display = 'none';
+                    return;
+                }
+
+                // Set the text content
+                nameContainer.textContent = name;
+
+                // Position the container at the mouse coordinates with an offset
+                // at the center bottom of the container
+                // if it would be out of the screen put it at the bottom instead
+
+                var halfDescriptionHeight = nameContainer.offsetHeight / 2;
+                var halfDescriptionWidth = nameContainer.offsetWidth / 2;
+                var verticalOffset = 50;
+                var borderOffset = 10;
+
+                nameContainer.style.left = x - halfDescriptionWidth + 'px';
+                if (y - verticalOffset - halfDescriptionHeight - borderOffset < 0) {
+                    nameContainer.style.top = y - halfDescriptionHeight + verticalOffset + 'px';
+                } else {
+                    nameContainer.style.top = y - halfDescriptionHeight - verticalOffset + 'px';
+                }
+
+                // Make the container visible
+                nameContainer.style.display = 'block';
+            }
+
+            function changeCursor(enabled) {
+                imageContainer.style.cursor = enabled ? 'pointer' : 'default';
+            }
+        });
+
+    </script>
+    <style>
+        @font-face {
+            font-family: 'Thata';
+            src: url('https://static.wixstatic.com/ufonts/c1926f_163cafe5c04d48cbbb27552644b8fe60/file.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+          	overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .imageLayer, canvas {
+            position: absolute;
+            height: 100%;
+        }
+
+        #toastContainer {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10000;
+        }
+
+        .toast {
+            background-color: #333;
+            color: white;
+            padding: 16px;
+            margin-bottom: 20px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        #objectDescription {
+            pointer-events: none;
+            position: absolute;
+            display: none;
+            z-index: 1000;
+            background-color: rgb(243, 243, 243);
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 60px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            font-family: 'Thata', sans-serif;
+        }
+
+        /* Loader */
+        .lds-facebook {
+            display: inline-block;
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            z-index: 100000;
+            top: calc(50% - 40px);
+            left: calc(50% - 40px);
+        }
+          .lds-facebook div {
+            display: inline-block;
+            position: absolute;
+            left: 8px;
+            width: 16px;
+            background: #000000;
+            animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+          }
+          .lds-facebook div:nth-child(1) {
+            left: 8px;
+            animation-delay: -0.24s;
+          }
+          .lds-facebook div:nth-child(2) {
+            left: 32px;
+            animation-delay: -0.12s;
+          }
+          .lds-facebook div:nth-child(3) {
+            left: 56px;
+            animation-delay: 0;
+          }
+          @keyframes lds-facebook {
+            0% {
+              top: 8px;
+              height: 64px;
+            }
+            50%, 100% {
+              top: 24px;
+              height: 32px;
+            }
+          }
+    </style>
+</head>
+
+<body>
+    <div class="lds-facebook"><div></div><div></div><div></div></div>
+    <div id="objectDescription"></div>
+    <div id="toastContainer"></div>
+    <div id="imageContainer"></div>
+</body>
+
+</html>
